@@ -1,14 +1,18 @@
 // Домашнее задание 1го урока
 const gmailInput = document.querySelector("#gmail_input");
 const clickGmail = document.querySelector("#gmail_button");
+const gmailResult2 = document.querySelector("#gmail_result2");
 
 clickGmail.addEventListener("click", () => {
     const gmail = gmailInput.value;
     const regex10 = /^[a-zA-Z0-9]+@gmail\.com$/
 
-    console.log(regex10.test(gmail));
-});
-
+    if (regex10.test(gmail)) {
+        gmailResult2.textContent = gmail;
+    } else {
+        gmailResult2.textContent = "Неверный Gmail-адрес";
+    }});
+gmailResult2.style.color = "orange";
 
 
 // Домашнее задание 1-2го урока в доработанном виде
@@ -85,6 +89,5 @@ reset.addEventListener("click", () => {
     count = 0;
     seconds.textContent = count;
 });
-
 
 
