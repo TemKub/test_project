@@ -90,4 +90,136 @@ reset.addEventListener("click", () => {
     seconds.textContent = count;
 });
 
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+// Первое задание третьего урока.
 
+function delay(value, ms, shouldFail = false) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            shouldFail
+                ? reject(new Error(`Ошибка при обработке: ${value}`))
+                : resolve(value);
+        }, ms);
+    });
+}
+
+delay(1, 500, false)
+    .then((result) => {
+        console.log(result);
+        return delay (result + 1, 500, true)
+    })
+    .then((result) => {
+        console.log(result);
+        return delay (result + 1, 500, false)
+    })
+    .then((result) => {
+        console.log(result);
+        return (result)
+    })
+    .catch((error) => {
+        console.log(error);
+    })
+    .finally(() => {
+        console.log("Работа завершена")
+    })
+
+
+///////////////////////////////////////////////////////////////
+
+async function checkNumbers() {
+    try {
+        const first = await delay(1, 500, false)
+        console.log(first);
+
+        const second = await delay(first + 1, 500, true)
+        console.log(second);
+
+        const third = await delay(second + 1, 500, false)
+        console.log(third);
+    } catch (error) {
+        console.log(error.message);
+    } finally {
+        console.log("Завершено")
+    }
+};
+checkNumbers();
+
+////////////////////////////////////////////////////////////////
+
+async function checkArray() {
+    const numbers = [10, 20, 30, 40];
+    const results = [];
+
+    for (let number of numbers) {
+        try {
+            const fail = Math.random() > 0.7;
+
+            const result = await delay(number, 500, fail)
+             results.push({
+                 value: result,
+                 error: null,
+             });
+        } catch (error) {
+            results.push({
+                value: number,
+                error: error.message,
+            });
+        }
+    }
+    console.log(results);
+}
+checkArray();
+
+/////////////////////////////////////////////////////////////////
+
+async function cookFood() {
+    const pizza = delay("Pizza", 1000, false);
+    const sushi = delay("Sushi", 2000, false);
+    const burger = delay("Burger", 500, true);
+    const ramen = delay("ramen", 3000, false);
+
+    try {
+        const result = await Promise.all([
+            pizza,
+            sushi,
+            burger,
+            ramen
+        ]);
+        console.log(result);
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+cookFood();
+
+/////////////////////////////////////////////////////////////////
+
+async function cookFoodSettled() {
+    const pizza = delay("Pizza", 1000, false);
+    const sushi = delay("Sushi", 2000, false);
+    const burger = delay("Burger", 500, true);
+    const ramen = delay("ramen", 3000, false);
+
+    try {
+        const result = await Promise.allSettled([
+            pizza,
+            sushi,
+            burger,
+            ramen
+        ]);
+        const succeeded = result.filter((item) => {
+            return item.status === "fulfilled";
+        });
+
+        const failed = result.filter((item) => {
+            return item.status === "rejected";
+        });
+
+        console.log("Успешные", succeeded);
+        console.log("Ошибки", failed);
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+cookFoodSettled();
