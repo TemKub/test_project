@@ -223,3 +223,45 @@ async function cookFoodSettled() {
     }
 }
 cookFoodSettled();
+
+
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+// Домашнее задание 4го урока
+
+async function getCharacters () {
+    try {
+        const response = await fetch("../data/characters.json");
+        const characters = await response.json();
+        const container = document.querySelector("#characters");
+
+        characters.forEach((character) => {
+            const card = document.createElement("div");
+            card.classList.add("character_card");
+
+            card.innerHTML = `
+                <h2>${character.name}</h2>
+                <p>age:${character.age}</p>
+                <img src="${character.photo}" alt="${character.name}" />
+            `
+            container.append(card);
+        });
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+getCharacters();
+
+/////////////////////////////
+
+async function getBio() {
+    try {
+        const response2 = await fetch("../data/bio.json");
+        const bio = await response2.json();
+        console.log(bio);
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+getBio();
