@@ -265,3 +265,34 @@ async function getBio() {
     }
 }
 getBio();
+
+/////////////////////////////
+
+async function getConverter() {
+    try {
+        const response3 = await fetch("../data/converter.json");
+        const converter = await response3.json();
+        console.log(converter.usd);
+        console.log(converter.eur);
+
+        inputSom.addEventListener("input", e => {
+            console.log(inputSom.value);
+
+            const som = Number(inputSom.value);
+            const usd = som / converter.usd;
+            const eur = som / converter.eur;
+
+            console.log(usd);
+            console.log(eur);
+        })
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+getConverter();
+
+const inputSom = document.querySelector("#som");
+const inputUsd = document.querySelector("#usd");
+const inputEur = document.querySelector("#eur");
+
+
